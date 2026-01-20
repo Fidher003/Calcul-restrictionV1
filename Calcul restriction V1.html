@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restrictions – Niveaux d'eau (IWLS)</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#121a33;
+      --muted:#8ea0c6;
+      --text:#e7ecff;
+      --line:rgba(255,255,255,.09);
+      --accent:#6aa9ff;
+      --good:#2dd4bf;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --neutral:#a78bfa;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background:
+        radial-gradient(1100px 700px at 25% 10%, rgba(106,169,255,.20), transparent 55%),
+        radial-gradient(900px 600px at 90% 20%, rgba(167,139,250,.18), transparent 50%),
+        radial-gradient(1100px 700px at 30% 90%, rgba(45,212,191,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    header{
+      padding:28px 18px 10px;
+      max-width:1200px;
+      margin:0 auto;
+    }
+    h1{
+      margin:0;
+      font-size:clamp(20px, 2.6vw, 30px);
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      margin:8px 0 0;
+      color:var(--muted);
+      line-height:1.35;
+      font-size:14px;
+    }
+
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:14px 18px 34px;
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap:16px;
+      align-items:start;
+    }
+
+    @media (max-width: 980px){
+      .wrap{grid-template-columns: 1fr}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:16px 16px 12px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+    }
+    .card .hd .title{
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .card .bd{ padding:16px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+
+    .field label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .field input, .field select{
+      width:100%;
+      padding:11px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.22);
+      color:var(--text);
+      outline:none;
+    }
+    .field input:focus, .field select:focus{
+      border-color: rgba(106,169,255,.65);
+      box-shadow: 0 0 0 3px rgba(106,169,255,.18);
+    }
+
+    .row2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 980px){
+      .row2{grid-template-columns:1fr}
+    }
+
+    .btnbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+    button{
+      border:0;
+      background: linear-gradient(180deg, rgba(106,169,255,.95), rgba(106,169,255,.75));
+      color:#071020;
+      padding:11px 14px;
+      border-radius:14px;
+      font-weight:800;
+      cursor:pointer;
+      transition: transform .06s ease, filter .12s ease;
+    }
+    button:hover{ filter:brightness(1.05) }
+    button:active{ transform: translateY(1px) }
+    button.secondary{
+      background: rgba(255,255,255,.08);
+      color:var(--text);
+      border:1px solid var(--line);
+      font-weight:700;
+    }
+    button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    .note{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+
+    .stickyRun{
+      position:sticky;
+      top:14px;
+      z-index:5;
+      padding:14px;
+      background: rgba(11,16,32,.55);
+      backdrop-filter: blur(10px);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+    }
+
+    .kvs{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .kv{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+      background: rgba(0,0,0,.18);
+    }
+    .kv b{ color:var(--text); font-weight:800; display:block; margin-top:2px; font-size:13px; }
+
+    .log{
+      font-family:var(--mono);
+      font-size:12px;
+      line-height:1.45;
+      white-space:pre-wrap;
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      color: #dbe3ff;
+      max-height: 240px;
+      overflow:auto;
+    }
+
+    .tableWrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width: 860px;
+    }
+    th, td{
+      padding:10px 12px;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+      text-align:left;
+      font-size:13px;
+    }
+    th{
+      position:sticky;
+      top:0;
+      background: rgba(14, 20, 42, .92);
+      backdrop-filter: blur(8px);
+      color: var(--muted);
+      font-weight:800;
+      letter-spacing:.2px;
+      z-index:2;
+    }
+    tr:hover td{ background: rgba(255,255,255,.03) }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+    .dot{ width:8px; height:8px; border-radius:50% }
+    .ok .dot{ background: var(--good) }
+    .warn .dot{ background: var(--warn) }
+    .bad .dot{ background: var(--bad) }
+    .neutral .dot{ background: var(--neutral) }
+
+    .muted{ color: var(--muted) }
+    .small{ font-size:12px }
+    .mono{ font-family:var(--mono) }
+
+    .footer{
+      padding:12px 16px 16px;
+      border-top:1px solid var(--line);
+      color: var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    a{ color: var(--accent); text-decoration:none }
+    a:hover{ text-decoration:underline }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Calcul des restrictions – Niveaux d’eau (IWLS)</h1>
+    <p class="subtitle">
+      Entrer la date, le type de navire, la largeur et le tirant, puis calculer les restrictions par station.
+      Les heures sont converties en <span class="mono">America/Toronto</span>.
+    </p>
+  </header>
+
+  <main class="wrap">
+    <!-- LEFT: controls -->
+    <section class="card stickyRun" aria-label="Paramètres">
+      <div class="hd">
+        <div class="title">Paramètres</div>
+        <span class="badge neutral" title="Statut">
+          <span class="dot"></span>
+          <span id="statusText">Prêt</span>
+        </span>
+      </div>
+      <div class="bd">
+        <div class="grid">
+          <div class="field">
+            <label for="date">Date</label>
+            <input id="date" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="vessel">Type de navire</label>
+            <select id="vessel">
+              <option value="Conteneur" selected>Conteneur</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="largeur">Largeur</label>
+              <input id="largeur" inputmode="decimal" value="31.26" />
+            </div>
+            <div class="field">
+              <label for="tirant">Tirant</label>
+              <input id="tirant" inputmode="decimal" value="11" />
+            </div>
+          </div>
+
+          <div class="btnbar">
+            <button id="runBtn">Calculer</button>
+            <button id="clearBtn" class="secondary">Effacer</button>
+          </div>
+
+          <div class="note">
+            Fenêtre IWLS: si la date ≠ aujourd’hui, l’heure de départ est fixée à <span class="mono">13:39</span>,
+            sinon elle est basée sur l’heure courante arrondie au multiple de 3 minutes (comme votre script).
+          </div>
+
+          <div class="kvs">
+            <div class="kv">
+              <span class="muted">Largeur arrondie</span>
+              <b id="kvLargeur">—</b>
+            </div>
+            <div class="kv">
+              <span class="muted">DsqR (colonne 7)</span>
+              <b id="kvDsqR">—</b>
+            </div>
+            <div class="kv">
+              <span class="muted">Fenêtre IWLS</span>
+              <b id="kvWindow" class="mono">—</b>
+            </div>
+            <div class="kv">
+              <span class="muted">Timezone</span>
+              <b class="mono">America/Toronto</b>
+            </div>
+          </div>
+
+          <div>
+            <label class="muted small" style="display:block; margin:12px 0 6px;">Journal</label>
+            <div id="log" class="log" aria-label="Journal"></div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span>API: IWLS DFO-MPO</span>
+        <span class="mono">wlf-spine</span>
+      </div>
+    </section>
+
+    <!-- RIGHT: results -->
+    <section class="card" aria-label="Résultats">
+      <div class="hd">
+        <div class="title">Résultats par station</div>
+        <span class="muted small">Affichage tabulaire (défilement horizontal si nécessaire)</span>
+      </div>
+
+      <div class="bd">
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Station</th>
+                <th>Limite (m)</th>
+                <th>Min / Max niveau (m)</th>
+                <th>Statut</th>
+                <th>Événements (début/fin)</th>
+                <th>Tirant max permis (m)</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+              <tr><td colspan="6" class="muted">Aucun calcul pour l’instant.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span class="muted">Astuce: utilisez <b>Effacer</b> pour réinitialiser le journal et les résultats.</span>
+        <span class="muted">UI responsive • Thème sombre</span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ---------------- Squat tables ----------------
+    const TABLE_SQUAT_CONTENEUR = {
+      24: {7: 0.79, 8: 0.88, 9: 0.96},
+      26: {7: 0.83, 8: 0.90, 9: 0.98},
+      28: {7: 0.84, 8: 0.91, 9: 1.00},
+      30: {7: 0.86, 8: 0.93, 9: 1.01},
+      32: {7: 0.87, 8: 0.94, 9: 1.03},
+      34: {7: 0.88, 8: 0.96, 9: 1.05, 10: 1.16, 11: 1.36, 12: 1.58, 13: 1.84, 14: 2.12, 15: 2.54},
+      36: {7: 0.89, 8: 0.97, 9: 1.07},
+      38: {7: 0.90, 8: 0.98, 9: 1.08},
+      40: {7: 0.91, 8: 1.00, 9: 1.10},
+      42: {7: 0.92, 8: 1.01, 9: 1.12},
+      44: {7: 0.93, 8: 1.02, 9: 1.13},
+    };
+
+    const TABLE_SQUAT_AUTRE = {
+      24: {7: 0.80, 8: 0.90, 9: 0.97},
+      26: {7: 0.85, 8: 0.92, 9: 1.00},
+      28: {7: 0.86, 8: 0.94, 9: 1.03},
+      30: {7: 0.88, 8: 0.96, 9: 1.05},
+      32: {7: 0.89, 8: 0.98, 9: 1.08},
+      34: {7: 0.91, 8: 1.00, 9: 1.10},
+      36: {7: 0.93, 8: 1.02, 9: 1.13},
+      38: {7: 0.94, 8: 1.04, 9: 1.16},
+      40: {7: 0.96, 8: 1.06, 9: 1.18},
+      42: {7: 0.97, 8: 1.08, 9: 1.21},
+      44: {7: 0.99, 8: 1.10, 9: 1.23},
+    };
+
+    // ---------------- Stations ----------------
+    const STATIONS = {
+      "Neuville":       "5cebf1df3d0f4a073c4bbb38",
+      "Portneuf":       "5cebf1df3d0f4a073c4bbb56",
+      "Deschaillons":   "5cebf1df3d0f4a073c4bbb76",
+      "Batiscan":       "5cebf1df3d0f4a073c4bbb91",
+      "Bécancour":      "5cebf1e03d0f4a073c4bbda9",
+      "Trois-Rivières": "5cebf1df3d0f4a073c4bbbac",
+      "Lac St-Pierre":  "5cebf1e03d0f4a073c4bbe49",
+      "Sorel":          "5cebf1e03d0f4a073c4bbe32",
+      "Contrecoeur":    "5cebf1e03d0f4a073c4bbe1b",
+      "Varennes":       "5cebf1e03d0f4a073c4bbe04",
+      "Frontenac":      "5cebf1e03d0f4a073c4bbdee",
+    };
+
+    const OFFSET_10_7 = new Set(["Neuville", "Portneuf", "Deschaillons"]);
+    const OFFSET_11_0 = new Set(["Batiscan"]);
+    const DEFAULT_OFFSET = 11.3;
+
+    // ---------------- UI helpers ----------------
+    const el = (id) => document.getElementById(id);
+
+    function setStatus(kind, text){
+      const badge = document.querySelector(".stickyRun .badge");
+      badge.classList.remove("ok","warn","bad","neutral");
+      badge.classList.add(kind);
+      el("statusText").textContent = text;
+    }
+
+    function logLine(s){
+      const log = el("log");
+      log.textContent += s + "\n";
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function clearAll(){
+      el("log").textContent = "";
+      el("resultsBody").innerHTML = `<tr><td colspan="6" class="muted">Aucun calcul pour l’instant.</td></tr>`;
+      el("kvLargeur").textContent = "—";
+      el("kvDsqR").textContent = "—";
+      el("kvWindow").textContent = "—";
+      setStatus("neutral","Prêt");
+    }
+
+    function badge(kind, label){
+      return `<span class="badge ${kind}"><span class="dot"></span>${label}</span>`;
+    }
+
+    // ---------------- Logic helpers ----------------
+    function roundLargeurToEvenAtLeast24(largeur){
+      if (largeur < 24) return 24;
+      return Math.ceil(largeur / 2) * 2;
+    }
+
+    function getDsqR(vesselType, largeurRounded){
+      const table = (vesselType === "Conteneur") ? TABLE_SQUAT_CONTENEUR : TABLE_SQUAT_AUTRE;
+      if (!table[largeurRounded]) throw new Error(`Largeur ${largeurRounded} non disponible dans la table squat (${vesselType}).`);
+      if (table[largeurRounded][7] == null) throw new Error(`Colonne 7 non disponible pour largeur ${largeurRounded} (${vesselType}).`);
+      return table[largeurRounded][7];
+    }
+
+    function stationOffset(name){
+      if (OFFSET_10_7.has(name)) return 10.7;
+      if (OFFSET_11_0.has(name)) return 11.0;
+      return DEFAULT_OFFSET;
+    }
+
+    function toIsoDate(d){
+      // d is Date (local)
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth()+1).padStart(2,"0");
+      const dd = String(d.getDate()).padStart(2,"0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function floorTo3Minutes(min){
+      return Math.floor(min / 3) * 3;
+    }
+
+    function computeCrossings(data, limit){
+      if (!data || data.length === 0) return [];
+      const events = [];
+      let prev = data[0];
+
+      for (let i=1;i<data.length;i++){
+        const cur = data[i];
+        if (cur.value === prev.value){
+          prev = cur;
+          continue;
+        }
+        const prevVal = prev.value;
+        const curVal  = cur.value;
+
+        if ((curVal - prevVal > 0) && (prevVal < limit) && (curVal >= limit)){
+          const ev = {...cur, reponse: "Interdiction termine à:"};
+          events.push(ev);
+        } else if ((curVal - prevVal < 0) && (prevVal >= limit) && (curVal < limit)){
+          const ev = {...prev, reponse: "Interdiction débute à:"};
+          events.push(ev);
+        }
+        prev = cur;
+      }
+      return events;
+    }
+
+    function formatEventToronto(eventDateStr){
+      // eventDateStr is like "YYYY-MM-DDTHH:MM:SSZ"
+      const d = new Date(eventDateStr);
+      // format in America/Toronto without external libs
+      const opts = { timeZone: "America/Toronto", hour12:false,
+        hour:"2-digit", minute:"2-digit", second:"2-digit",
+        day:"2-digit", month:"short", year:"numeric"
+      };
+      const parts = new Intl.DateTimeFormat("fr-CA", opts).formatToParts(d);
+      const get = (t) => parts.find(p => p.type === t)?.value ?? "";
+      // fr-CA gives month in French-ish abbreviations depending on browser; good enough.
+      return `${get("hour")}:${get("minute")}:${get("second")}  le ${get("day")} ${get("month")} ${get("year")}`;
+    }
+
+    async function fetchStationData(stationId, day1, day2, t1, t2){
+      const url = `https://api-iwls.dfo-mpo.gc.ca/api/v1/stations/${stationId}/data?time-series-code=wlf-spine&from=${day1}${t1}&to=${day2}${t2}`;
+      const res = await fetch(url, { method:"GET" });
+      if (!res.ok) throw new Error(`HTTP ${res.status} – ${res.statusText}`);
+      return await res.json();
+    }
+
+    // ---------------- Main action ----------------
+    async function run(){
+      clearAll();
+      setStatus("neutral","Calcul…");
+
+      try{
+        const dateStr = el("date").value;
+        if (!dateStr){
+          setStatus("bad","Erreur");
+          logLine("Erreur: Date manquante.");
+          return;
+        }
+
+        // Date input gives YYYY-MM-DD in local time
+        const selected = new Date(dateStr + "T00:00:00");
+        const today = new Date();
+        const today0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+        if (selected < today0){
+          setStatus("bad","Date invalide");
+          logLine("La date ne peut pas être dans le passé.");
+          return;
+        }
+
+        const vesselType = el("vessel").value;
+
+        const largeurIn = Number(String(el("largeur").value).replace(",", "."));
+        if (!Number.isFinite(largeurIn)){
+          setStatus("bad","Erreur");
+          logLine("Erreur: Largeur invalide. Entrez un nombre (ex: 31.26).");
+          return;
+        }
+
+        const tirant = Number(String(el("tirant").value).replace(",", "."));
+        if (!Number.isFinite(tirant)){
+          setStatus("bad","Erreur");
+          logLine("Erreur: Tirant invalide. Entrez un nombre (ex: 11).");
+          return;
+        }
+
+        const largeurRounded = roundLargeurToEvenAtLeast24(largeurIn);
+
+        let dsqR;
+        try{
+          dsqR = getDsqR(vesselType, largeurRounded);
+        }catch(e){
+          setStatus("bad","Erreur table");
+          logLine("Erreur table squat: " + e.message);
+          return;
+        }
+
+        // Determine x/y like your script
+        let x = today.getHours();
+        let y = today.getMinutes();
+
+        const selectedIsToday = selected.getTime() === today0.getTime();
+        if (!selectedIsToday){
+          x = 13; y = 39;
+        }
+        y = floorTo3Minutes(y);
+
+        const day1 = toIsoDate(selected);
+        const day2Date = new Date(selected);
+        day2Date.setDate(day2Date.getDate() + 1);
+        const day2 = toIsoDate(day2Date);
+
+        const t1 = `T${String(x).padStart(2,"0")}:${String(y).padStart(2,"0")}:00Z`;
+        const t2 = `T23:57:00Z`;
+
+        el("kvLargeur").textContent = `${largeurIn} → ${largeurRounded}`;
+        el("kvDsqR").textContent = dsqR.toFixed(2);
+        el("kvWindow").textContent = `${day1}${t1}  →  ${day2}${t2}`;
+
+        logLine(`Date: ${day1}`);
+        logLine(`Type navire: ${vesselType}`);
+        logLine(`Largeur entrée: ${largeurIn} → arrondie: ${largeurRounded}`);
+        logLine(`Tirant entrée: ${tirant}`);
+        logLine(`DsqR (table[${largeurRounded}][7]): ${dsqR}`);
+        logLine(`Fenêtre IWLS: from=${day1}${t1} to=${day2}${t2}`);
+        logLine("------------------------------------------------------------------------------------------");
+
+        // Build table rows
+        const rows = [];
+        let anyWarn = false;
+        let anyBad = false;
+
+        for (const [stationName, stationId] of Object.entries(STATIONS)){
+          const off = stationOffset(stationName);
+          const limit = tirant + dsqR - off;
+
+          let data;
+          try{
