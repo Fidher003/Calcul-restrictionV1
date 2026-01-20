@@ -6,284 +6,108 @@
   <title>Restrictions – Niveaux d'eau (IWLS)</title>
   <style>
     :root{
-      --bg:#0b1020;
-      --card:#121a33;
-      --muted:#8ea0c6;
-      --text:#e7ecff;
-      --line:rgba(255,255,255,.09);
-      --accent:#6aa9ff;
-      --good:#2dd4bf;
-      --warn:#fbbf24;
-      --bad:#fb7185;
-      --neutral:#a78bfa;
-      --shadow: 0 14px 40px rgba(0,0,0,.35);
-      --radius: 18px;
+      --bg:#0b1020; --card:#121a33; --muted:#8ea0c6; --text:#e7ecff;
+      --line:rgba(255,255,255,.09); --accent:#6aa9ff;
+      --good:#2dd4bf; --warn:#fbbf24; --bad:#fb7185; --neutral:#a78bfa;
+      --shadow: 0 14px 40px rgba(0,0,0,.35); --radius: 18px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     }
-
     *{box-sizing:border-box}
     body{
-      margin:0;
-      font-family:var(--sans);
+      margin:0; font-family:var(--sans); color:var(--text); min-height:100vh;
       background:
         radial-gradient(1100px 700px at 25% 10%, rgba(106,169,255,.20), transparent 55%),
         radial-gradient(900px 600px at 90% 20%, rgba(167,139,250,.18), transparent 50%),
         radial-gradient(1100px 700px at 30% 90%, rgba(45,212,191,.12), transparent 55%),
         var(--bg);
-      color:var(--text);
-      min-height:100vh;
     }
-
-    header{
-      padding:28px 18px 10px;
-      max-width:1200px;
-      margin:0 auto;
-    }
-    h1{
-      margin:0;
-      font-size:clamp(20px, 2.6vw, 30px);
-      letter-spacing:.2px;
-    }
-    .subtitle{
-      margin:8px 0 0;
-      color:var(--muted);
-      line-height:1.35;
-      font-size:14px;
-    }
-
+    header{padding:28px 18px 10px; max-width:1200px; margin:0 auto;}
+    h1{margin:0; font-size:clamp(20px, 2.6vw, 30px);}
+    .subtitle{margin:8px 0 0; color:var(--muted); font-size:14px; line-height:1.35;}
     .wrap{
-      max-width:1200px;
-      margin:0 auto;
-      padding:14px 18px 34px;
-      display:grid;
-      grid-template-columns: 360px 1fr;
-      gap:16px;
-      align-items:start;
+      max-width:1200px; margin:0 auto; padding:14px 18px 34px;
+      display:grid; grid-template-columns: 360px 1fr; gap:16px; align-items:start;
     }
-
-    @media (max-width: 980px){
-      .wrap{grid-template-columns: 1fr}
-    }
-
+    @media (max-width: 980px){ .wrap{grid-template-columns: 1fr} }
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
+      border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;
     }
     .card .hd{
-      padding:16px 16px 12px;
-      border-bottom:1px solid var(--line);
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:center;
+      padding:16px 16px 12px; border-bottom:1px solid var(--line);
+      display:flex; justify-content:space-between; gap:10px; align-items:center;
     }
-    .card .hd .title{
-      font-weight:700;
-      letter-spacing:.2px;
-    }
+    .card .hd .title{font-weight:700;}
     .card .bd{ padding:16px; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-
-    .field label{
-      display:block;
-      font-size:12px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
+    .grid{ display:grid; grid-template-columns: 1fr; gap:12px; }
+    .field label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px;}
     .field input, .field select{
-      width:100%;
-      padding:11px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.22);
-      color:var(--text);
-      outline:none;
+      width:100%; padding:11px 12px; border-radius:12px;
+      border:1px solid var(--line); background: rgba(0,0,0,.22); color:var(--text); outline:none;
     }
     .field input:focus, .field select:focus{
-      border-color: rgba(106,169,255,.65);
-      box-shadow: 0 0 0 3px rgba(106,169,255,.18);
+      border-color: rgba(106,169,255,.65); box-shadow: 0 0 0 3px rgba(106,169,255,.18);
     }
-
-    .row2{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width: 980px){
-      .row2{grid-template-columns:1fr}
-    }
-
-    .btnbar{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:8px;
-    }
+    .row2{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    @media (max-width: 980px){ .row2{grid-template-columns:1fr} }
+    .btnbar{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
     button{
-      border:0;
-      background: linear-gradient(180deg, rgba(106,169,255,.95), rgba(106,169,255,.75));
-      color:#071020;
-      padding:11px 14px;
-      border-radius:14px;
-      font-weight:800;
-      cursor:pointer;
-      transition: transform .06s ease, filter .12s ease;
+      border:0; background: linear-gradient(180deg, rgba(106,169,255,.95), rgba(106,169,255,.75));
+      color:#071020; padding:11px 14px; border-radius:14px; font-weight:800; cursor:pointer;
     }
-    button:hover{ filter:brightness(1.05) }
-    button:active{ transform: translateY(1px) }
-    button.secondary{
-      background: rgba(255,255,255,.08);
-      color:var(--text);
-      border:1px solid var(--line);
-      font-weight:700;
-    }
-    button:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-    }
-
-    .note{
-      margin-top:10px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.35;
-    }
-
+    button.secondary{ background: rgba(255,255,255,.08); color:var(--text); border:1px solid var(--line); font-weight:700; }
+    button:disabled{ opacity:.55; cursor:not-allowed; }
+    .note{ margin-top:10px; color:var(--muted); font-size:12px; line-height:1.35; }
     .stickyRun{
-      position:sticky;
-      top:14px;
-      z-index:5;
-      padding:14px;
-      background: rgba(11,16,32,.55);
-      backdrop-filter: blur(10px);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
+      position:sticky; top:14px; z-index:5; padding:14px;
+      background: rgba(11,16,32,.55); backdrop-filter: blur(10px);
+      border:1px solid var(--line); border-radius:var(--radius);
       box-shadow: 0 14px 40px rgba(0,0,0,.25);
     }
-
-    .kvs{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-      font-size:12px;
-      color:var(--muted);
-    }
-    .kv{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:10px;
-      background: rgba(0,0,0,.18);
-    }
+    .kvs{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px; font-size:12px; color:var(--muted); }
+    .kv{ border:1px solid var(--line); border-radius:14px; padding:10px; background: rgba(0,0,0,.18); }
     .kv b{ color:var(--text); font-weight:800; display:block; margin-top:2px; font-size:13px; }
-
     .log{
-      font-family:var(--mono);
-      font-size:12px;
-      line-height:1.45;
-      white-space:pre-wrap;
-      background: rgba(0,0,0,.22);
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      color: #dbe3ff;
-      max-height: 240px;
-      overflow:auto;
+      font-family:var(--mono); font-size:12px; line-height:1.45; white-space:pre-wrap;
+      background: rgba(0,0,0,.22); border:1px solid var(--line); border-radius:14px;
+      padding:12px; color:#dbe3ff; max-height: 260px; overflow:auto;
     }
-
-    .tableWrap{
-      overflow:auto;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.18);
-    }
-    table{
-      width:100%;
-      border-collapse:collapse;
-      min-width: 860px;
-    }
-    th, td{
-      padding:10px 12px;
-      border-bottom:1px solid var(--line);
-      vertical-align:top;
-      text-align:left;
-      font-size:13px;
-    }
-    th{
-      position:sticky;
-      top:0;
-      background: rgba(14, 20, 42, .92);
-      backdrop-filter: blur(8px);
-      color: var(--muted);
-      font-weight:800;
-      letter-spacing:.2px;
-      z-index:2;
-    }
+    .tableWrap{ overflow:auto; border-radius:14px; border:1px solid var(--line); background: rgba(0,0,0,.18); }
+    table{ width:100%; border-collapse:collapse; min-width: 860px; }
+    th, td{ padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left; font-size:13px; }
+    th{ position:sticky; top:0; background: rgba(14, 20, 42, .92); backdrop-filter: blur(8px); color: var(--muted); font-weight:800; z-index:2; }
     tr:hover td{ background: rgba(255,255,255,.03) }
-
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:800;
-      font-size:12px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
+      display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px;
+      font-weight:800; font-size:12px; border:1px solid var(--line); background: rgba(255,255,255,.06);
     }
     .dot{ width:8px; height:8px; border-radius:50% }
     .ok .dot{ background: var(--good) }
     .warn .dot{ background: var(--warn) }
     .bad .dot{ background: var(--bad) }
     .neutral .dot{ background: var(--neutral) }
-
     .muted{ color: var(--muted) }
     .small{ font-size:12px }
     .mono{ font-family:var(--mono) }
-
     .footer{
-      padding:12px 16px 16px;
-      border-top:1px solid var(--line);
-      color: var(--muted);
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:8px;
+      padding:12px 16px 16px; border-top:1px solid var(--line); color: var(--muted);
+      font-size:12px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
     }
-    a{ color: var(--accent); text-decoration:none }
-    a:hover{ text-decoration:underline }
   </style>
 </head>
 
 <body>
   <header>
     <h1>Calcul des restrictions – Niveaux d’eau (IWLS)</h1>
-    <p class="subtitle">
-      Entrer la date, le type de navire, la largeur et le tirant, puis calculer les restrictions par station.
-      Les heures sont converties en <span class="mono">America/Toronto</span>.
-    </p>
+    <p class="subtitle">Date du jour par défaut • Résultats par station • Journal d’exécution</p>
   </header>
 
   <main class="wrap">
-    <!-- LEFT: controls -->
     <section class="card stickyRun" aria-label="Paramètres">
       <div class="hd">
         <div class="title">Paramètres</div>
-        <span class="badge neutral" title="Statut">
-          <span class="dot"></span>
-          <span id="statusText">Prêt</span>
-        </span>
+        <span class="badge neutral"><span class="dot"></span><span id="statusText">Prêt</span></span>
       </div>
       <div class="bd">
         <div class="grid">
@@ -317,48 +141,33 @@
           </div>
 
           <div class="note">
-            Fenêtre IWLS: si la date ≠ aujourd’hui, l’heure de départ est fixée à <span class="mono">13:39</span>,
-            sinon elle est basée sur l’heure courante arrondie au multiple de 3 minutes (comme votre script).
+            Si la date ≠ aujourd’hui, départ fixé à <span class="mono">13:39</span>. Sinon: heure courante arrondie au multiple de 3 minutes.
           </div>
 
           <div class="kvs">
-            <div class="kv">
-              <span class="muted">Largeur arrondie</span>
-              <b id="kvLargeur">—</b>
-            </div>
-            <div class="kv">
-              <span class="muted">DsqR (colonne 7)</span>
-              <b id="kvDsqR">—</b>
-            </div>
-            <div class="kv">
-              <span class="muted">Fenêtre IWLS</span>
-              <b id="kvWindow" class="mono">—</b>
-            </div>
-            <div class="kv">
-              <span class="muted">Timezone</span>
-              <b class="mono">America/Toronto</b>
-            </div>
+            <div class="kv"><span class="muted">Largeur arrondie</span><b id="kvLargeur">—</b></div>
+            <div class="kv"><span class="muted">DsqR (colonne 7)</span><b id="kvDsqR">—</b></div>
+            <div class="kv"><span class="muted">Fenêtre IWLS</span><b id="kvWindow" class="mono">—</b></div>
+            <div class="kv"><span class="muted">Timezone</span><b class="mono">America/Toronto</b></div>
           </div>
 
           <div>
             <label class="muted small" style="display:block; margin:12px 0 6px;">Journal</label>
-            <div id="log" class="log" aria-label="Journal"></div>
+            <div id="log" class="log"></div>
           </div>
         </div>
       </div>
       <div class="footer">
-        <span>API: IWLS DFO-MPO</span>
-        <span class="mono">wlf-spine</span>
+        <span>API IWLS (DFO-MPO)</span>
+        <span class="mono">time-series: wlf-spine</span>
       </div>
     </section>
 
-    <!-- RIGHT: results -->
     <section class="card" aria-label="Résultats">
       <div class="hd">
         <div class="title">Résultats par station</div>
-        <span class="muted small">Affichage tabulaire (défilement horizontal si nécessaire)</span>
+        <span class="muted small">Tableau (défilement horizontal si nécessaire)</span>
       </div>
-
       <div class="bd">
         <div class="tableWrap">
           <table>
@@ -378,10 +187,9 @@
           </table>
         </div>
       </div>
-
       <div class="footer">
-        <span class="muted">Astuce: utilisez <b>Effacer</b> pour réinitialiser le journal et les résultats.</span>
-        <span class="muted">UI responsive • Thème sombre</span>
+        <span class="muted">Si rien ne s’affiche: c’est souvent un blocage CORS du navigateur.</span>
+        <span class="muted">UI responsive</span>
       </div>
     </section>
   </main>
@@ -484,7 +292,6 @@
     }
 
     function toIsoDate(d){
-      // d is Date (local)
       const yyyy = d.getFullYear();
       const mm = String(d.getMonth()+1).padStart(2,"0");
       const dd = String(d.getDate()).padStart(2,"0");
@@ -502,19 +309,15 @@
 
       for (let i=1;i<data.length;i++){
         const cur = data[i];
-        if (cur.value === prev.value){
-          prev = cur;
-          continue;
-        }
+        if (cur.value === prev.value){ prev = cur; continue; }
+
         const prevVal = prev.value;
         const curVal  = cur.value;
 
         if ((curVal - prevVal > 0) && (prevVal < limit) && (curVal >= limit)){
-          const ev = {...cur, reponse: "Interdiction termine à:"};
-          events.push(ev);
+          events.push({ ...cur, reponse: "Interdiction termine à:" });
         } else if ((curVal - prevVal < 0) && (prevVal >= limit) && (curVal < limit)){
-          const ev = {...prev, reponse: "Interdiction débute à:"};
-          events.push(ev);
+          events.push({ ...prev, reponse: "Interdiction débute à:" });
         }
         prev = cur;
       }
@@ -522,24 +325,43 @@
     }
 
     function formatEventToronto(eventDateStr){
-      // eventDateStr is like "YYYY-MM-DDTHH:MM:SSZ"
       const d = new Date(eventDateStr);
-      // format in America/Toronto without external libs
-      const opts = { timeZone: "America/Toronto", hour12:false,
-        hour:"2-digit", minute:"2-digit", second:"2-digit",
-        day:"2-digit", month:"short", year:"numeric"
+      const opts = { timeZone:"America/Toronto", hour12:false,
+        hour:"2-digit", minute:"2-digit", second:"2-digit", day:"2-digit", month:"short", year:"numeric"
       };
       const parts = new Intl.DateTimeFormat("fr-CA", opts).formatToParts(d);
-      const get = (t) => parts.find(p => p.type === t)?.value ?? "";
-      // fr-CA gives month in French-ish abbreviations depending on browser; good enough.
+      const get = (t) => (parts.find(p => p.type === t) || {}).value || "";
       return `${get("hour")}:${get("minute")}:${get("second")}  le ${get("day")} ${get("month")} ${get("year")}`;
     }
 
     async function fetchStationData(stationId, day1, day2, t1, t2){
       const url = `https://api-iwls.dfo-mpo.gc.ca/api/v1/stations/${stationId}/data?time-series-code=wlf-spine&from=${day1}${t1}&to=${day2}${t2}`;
-      const res = await fetch(url, { method:"GET" });
-      if (!res.ok) throw new Error(`HTTP ${res.status} – ${res.statusText}`);
+
+      // Log URL (utile pour diagnostiquer)
+      logLine(`GET ${url}`);
+
+      let res;
+      try{
+        res = await fetch(url, { method:"GET" });
+      }catch(e){
+        // Très souvent: CORS / réseau
+        throw new Error(`Fetch impossible (souvent CORS). Détail: ${e && e.message ? e.message : e}`);
+      }
+
+      if (!res.ok){
+        const txt = await res.text().catch(()=> "");
+        throw new Error(`HTTP ${res.status} – ${res.statusText}${txt ? " – " + txt.slice(0,120) : ""}`);
+      }
       return await res.json();
+    }
+
+    function escapeHtml(s){
+      return String(s)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
     }
 
     // ---------------- Main action ----------------
@@ -555,10 +377,9 @@
           return;
         }
 
-        // Date input gives YYYY-MM-DD in local time
         const selected = new Date(dateStr + "T00:00:00");
-        const today = new Date();
-        const today0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const now = new Date();
+        const today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
         if (selected < today0){
           setStatus("bad","Date invalide");
@@ -583,24 +404,13 @@
         }
 
         const largeurRounded = roundLargeurToEvenAtLeast24(largeurIn);
+        const dsqR = getDsqR(vesselType, largeurRounded);
 
-        let dsqR;
-        try{
-          dsqR = getDsqR(vesselType, largeurRounded);
-        }catch(e){
-          setStatus("bad","Erreur table");
-          logLine("Erreur table squat: " + e.message);
-          return;
-        }
-
-        // Determine x/y like your script
-        let x = today.getHours();
-        let y = today.getMinutes();
-
+        // heures comme le script Python
+        let x = now.getHours();
+        let y = now.getMinutes();
         const selectedIsToday = selected.getTime() === today0.getTime();
-        if (!selectedIsToday){
-          x = 13; y = 39;
-        }
+        if (!selectedIsToday){ x = 13; y = 39; }
         y = floorTo3Minutes(y);
 
         const day1 = toIsoDate(selected);
@@ -617,20 +427,161 @@
 
         logLine(`Date: ${day1}`);
         logLine(`Type navire: ${vesselType}`);
-        logLine(`Largeur entrée: ${largeurIn} → arrondie: ${largeurRounded}`);
-        logLine(`Tirant entrée: ${tirant}`);
-        logLine(`DsqR (table[${largeurRounded}][7]): ${dsqR}`);
-        logLine(`Fenêtre IWLS: from=${day1}${t1} to=${day2}${t2}`);
+        logLine(`Largeur: ${largeurIn} → ${largeurRounded}`);
+        logLine(`Tirant: ${tirant}`);
+        logLine(`DsqR: ${dsqR}`);
+        logLine(`Fenêtre: from=${day1}${t1} to=${day2}${t2}`);
         logLine("------------------------------------------------------------------------------------------");
 
-        // Build table rows
         const rows = [];
         let anyWarn = false;
         let anyBad = false;
 
-        for (const [stationName, stationId] of Object.entries(STATIONS)){
+        for (const stationName in STATIONS){
+          const stationId = STATIONS[stationName];
           const off = stationOffset(stationName);
           const limit = tirant + dsqR - off;
 
           let data;
           try{
+            data = await fetchStationData(stationId, day1, day2, t1, t2);
+          }catch(e){
+            anyBad = true;
+            rows.push(`
+              <tr>
+                <td><b>${stationName}</b><div class="muted small">offset: ${off}</div></td>
+                <td class="mono">${limit.toFixed(3)}</td>
+                <td class="muted">—</td>
+                <td>${badge("bad","Erreur API")}</td>
+                <td class="muted">/${escapeHtml(e.message)}/</td>
+                <td class="muted">—</td>
+              </tr>
+            `);
+            continue;
+          }
+
+          if (!Array.isArray(data) || data.length === 0){
+            rows.push(`
+              <tr>
+                <td><b>${stationName}</b><div class="muted small">offset: ${off}</div></td>
+                <td class="mono">${limit.toFixed(3)}</td>
+                <td class="muted">—</td>
+                <td>${badge("neutral","Aucune donnée")}</td>
+                <td class="muted">/Aucune donnée/</td>
+                <td class="muted">—</td>
+              </tr>
+            `);
+            continue;
+          }
+
+          // valeur robuste: parseFloat, car l’API peut renvoyer une string
+          const clean = data
+            .filter(d => d && typeof d === "object" && d.eventDate)
+            .map(d => ({
+              eventDate: d.eventDate,
+              value: Number(d.value)  // convertit string -> number
+            }))
+            .filter(d => Number.isFinite(d.value));
+
+          if (clean.length === 0){
+            rows.push(`
+              <tr>
+                <td><b>${stationName}</b><div class="muted small">offset: ${off}</div></td>
+                <td class="mono">${limit.toFixed(3)}</td>
+                <td class="muted">—</td>
+                <td>${badge("neutral","Aucune donnée")}</td>
+                <td class="muted">/Aucune donnée exploitable/</td>
+                <td class="muted">—</td>
+              </tr>
+            `);
+            continue;
+          }
+
+          const values = clean.map(d => d.value);
+          const vmin = Math.min.apply(null, values);
+          const vmax = Math.max.apply(null, values);
+
+          if (vmax < limit){
+            anyBad = true;
+            const tirantMax = vmax + off - dsqR;
+            rows.push(`
+              <tr>
+                <td><b>${stationName}</b><div class="muted small">offset: ${off}</div></td>
+                <td class="mono">${limit.toFixed(3)}</td>
+                <td class="mono">${vmin.toFixed(3)} / ${vmax.toFixed(3)}</td>
+                <td>${badge("bad","Insuffisant")}</td>
+                <td class="muted">Niveau d'eau insuffisant</td>
+                <td class="mono">${tirantMax.toFixed(2)}</td>
+              </tr>
+            `);
+            continue;
+          }
+
+          const events = computeCrossings(clean, limit);
+
+          if (!events.length){
+            const tirantMax = vmin + off - dsqR;
+            const isWarn = (vmin >= limit) && (vmin <= limit + 0.1);
+            if (isWarn) anyWarn = true;
+
+            rows.push(`
+              <tr>
+                <td><b>${stationName}</b><div class="muted small">offset: ${off}</div></td>
+                <td class="mono">${limit.toFixed(3)}</td>
+                <td class="mono">${vmin.toFixed(3)} / ${vmax.toFixed(3)}</td>
+                <td>${isWarn ? badge("warn","OK (limite proche)") : badge("ok","OK")}</td>
+                <td class="muted">/Pas de restriction/</td>
+                <td class="mono">${tirantMax.toFixed(2)}</td>
+              </tr>
+            `);
+          } else {
+            anyWarn = true;
+            const evHtml = events.map(ev => {
+              const dt = formatEventToronto(ev.eventDate);
+              return `<div class="mono">${escapeHtml(ev.reponse)} ${escapeHtml(dt)} &nbsp; ${Number(ev.value).toFixed(3)}</div>`;
+            }).join("");
+
+            rows.push(`
+              <tr>
+                <td><b>${stationName}</b><div class="muted small">offset: ${off}</div></td>
+                <td class="mono">${limit.toFixed(3)}</td>
+                <td class="mono">${vmin.toFixed(3)} / ${vmax.toFixed(3)}</td>
+                <td>${badge("warn","Restriction")}</td>
+                <td>${evHtml}</td>
+                <td class="muted">—</td>
+              </tr>
+            `);
+          }
+        }
+
+        el("resultsBody").innerHTML = rows.join("");
+        if (anyBad) setStatus("bad","Terminé (erreurs)");
+        else if (anyWarn) setStatus("warn","Terminé (attention)");
+        else setStatus("ok","Terminé");
+
+      }catch(e){
+        setStatus("bad","Erreur");
+        logLine("Erreur globale: " + (e && e.message ? e.message : e));
+      }
+    }
+
+    // ---------------- Init ----------------
+    document.addEventListener("DOMContentLoaded", () => {
+      // Date du jour par défaut (garanti)
+      const now = new Date();
+      el("date").value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+
+      clearAll();
+      logLine("Prêt. Cliquez sur Calculer.");
+
+      el("runBtn").addEventListener("click", async () => {
+        el("runBtn").disabled = true;
+        try{ await run(); }
+        finally{ el("runBtn").disabled = false; }
+      });
+
+      el("clearBtn").addEventListener("click", clearAll);
+    });
+  </script>
+</body>
+</html>
