@@ -1,189 +1,172 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Restrictions – Niveaux d'eau (IWLS)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restrictions – IWLS</title>
 
-  <style>
-    :root{
-      --bg:#0b1020; --text:#e7ecff; --muted:#8ea0c6;
-      --line:rgba(255,255,255,.1);
-      --good:#2dd4bf; --warn:#fbbf24; --bad:#fb7185; --neutral:#a78bfa;
-      --radius:16px;
-      --mono: ui-monospace, Menlo, Consolas, monospace;
-      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    }
+<style>
+:root{
+  --bg:#0b1020; --text:#e7ecff; --muted:#8ea0c6;
+  --line:rgba(255,255,255,.12);
+  --ok:#2dd4bf; --warn:#fbbf24; --bad:#fb7185;
+  --radius:16px;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+}
+body{
+  margin:0; font-family:system-ui,Segoe UI,Arial;
+  background:radial-gradient(900px 600px at 20% 0%,#1e3a8a,transparent),
+             radial-gradient(900px 600px at 80% 100%,#134e4a,transparent),
+             var(--bg);
+  color:var(--text);
+}
+header{max-width:1200px;margin:auto;padding:24px}
+h1{margin:0}
+.subtitle{color:var(--muted);font-size:14px}
 
-    body{
-      margin:0; font-family:var(--sans); color:var(--text);
-      background: radial-gradient(1000px 600px at 20% 0%, #1b2a5e, transparent),
-                  radial-gradient(1000px 600px at 80% 100%, #134e4a, transparent),
-                  var(--bg);
-    }
+.wrap{
+  max-width:1200px;margin:auto;padding:16px;
+  display:grid;grid-template-columns:360px 1fr;gap:16px
+}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
 
-    header{max-width:1200px; margin:auto; padding:24px;}
-    h1{margin:0}
-    .subtitle{color:var(--muted); font-size:14px;}
+.card{
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.hd{
+  padding:14px 16px;
+  border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  font-weight:700;
+}
+.bd{padding:16px}
+.field label{font-size:12px;color:var(--muted)}
+.field input,.field select{
+  width:100%;padding:10px;margin-top:4px;
+  border-radius:12px;border:1px solid var(--line);
+  background:rgba(0,0,0,.25);color:var(--text)
+}
+.grid{display:grid;gap:12px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-    .wrap{
-      max-width:1200px; margin:auto; padding:16px;
-      display:grid; grid-template-columns:360px 1fr; gap:16px;
-    }
-    @media(max-width:900px){.wrap{grid-template-columns:1fr}}
+button{
+  padding:10px 14px;border-radius:14px;
+  background:#6aa9ff;border:0;font-weight:800;cursor:pointer
+}
+button.secondary{
+  background:transparent;color:var(--text);
+  border:1px solid var(--line)
+}
 
-    .card{
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      overflow:hidden;
-    }
+.badge{
+  display:inline-flex;gap:6px;align-items:center;
+  padding:5px 10px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px
+}
+.dot{width:8px;height:8px;border-radius:50%}
+.ok .dot{background:var(--ok)}
+.warn .dot{background:var(--warn)}
+.bad .dot{background:var(--bad)}
 
-    .hd{
-      padding:14px 16px;
-      border-bottom:1px solid var(--line);
-      display:flex; justify-content:space-between; align-items:center;
-      font-weight:700;
-    }
-    .bd{padding:16px;}
+.log{
+  font-family:var(--mono);font-size:12px;
+  background:rgba(0,0,0,.3);
+  border:1px solid var(--line);
+  border-radius:12px;padding:10px;
+  max-height:220px;overflow:auto;white-space:pre-wrap
+}
 
-    .field label{font-size:12px; color:var(--muted)}
-    .field input, .field select{
-      width:100%; margin-top:4px; padding:10px;
-      border-radius:12px; border:1px solid var(--line);
-      background:rgba(0,0,0,.25); color:var(--text);
-    }
+table{width:100%;border-collapse:collapse;min-width:850px;font-size:13px}
+th,td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);text-align:left}
+tr:hover td{background:rgba(255,255,255,.04)}
 
-    .grid{display:grid; gap:12px}
-    .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-
-    button{
-      padding:10px 14px; border-radius:14px;
-      background:#6aa9ff; border:0; font-weight:800; cursor:pointer;
-    }
-    button.secondary{
-      background:transparent; color:var(--text);
-      border:1px solid var(--line);
-    }
-
-    .badge{
-      display:inline-flex; gap:6px; align-items:center;
-      padding:5px 10px; border-radius:999px;
-      border:1px solid var(--line); font-size:12px;
-    }
-    .dot{width:8px; height:8px; border-radius:50%}
-    .ok .dot{background:var(--good)}
-    .warn .dot{background:var(--warn)}
-    .bad .dot{background:var(--bad)}
-    .neutral .dot{background:var(--neutral)}
-
-    .log{
-      font-family:var(--mono); font-size:12px;
-      background:rgba(0,0,0,.3);
-      border:1px solid var(--line);
-      border-radius:12px; padding:10px;
-      max-height:220px; overflow:auto;
-      white-space:pre-wrap;
-    }
-
-    table{
-      width:100%; border-collapse:collapse; min-width:850px;
-      font-size:13px;
-    }
-    th, td{
-      padding:10px; border-bottom:1px solid var(--line);
-      vertical-align:top;
-    }
-    th{color:var(--muted); text-align:left}
-    tr:hover td{background:rgba(255,255,255,.04)}
-
-    .mono{font-family:var(--mono)}
-    .muted{color:var(--muted)}
-  </style>
+.mono{font-family:var(--mono)}
+.muted{color:var(--muted)}
+</style>
 </head>
 
 <body>
+
 <header>
   <h1>Calcul des restrictions – IWLS</h1>
-  <p class="subtitle">Date du jour par défaut • Présentation claire des interdictions</p>
+  <p class="subtitle">Interdictions : de HH:MM (jj/mm) à HH:MM (jj/mm)</p>
 </header>
 
 <main class="wrap">
 
-  <!-- PARAMÈTRES -->
-  <section class="card">
-    <div class="hd">
-      Paramètres
-      <span class="badge neutral"><span class="dot"></span><span id="status">Prêt</span></span>
+<!-- PARAMÈTRES -->
+<section class="card">
+  <div class="hd">
+    Paramètres
+    <span class="badge ok"><span class="dot"></span><span id="status">Prêt</span></span>
+  </div>
+  <div class="bd grid">
+    <div class="field">
+      <label>Date</label>
+      <input type="date" id="date">
     </div>
-    <div class="bd grid">
-
+    <div class="field">
+      <label>Type de navire</label>
+      <select id="vessel">
+        <option>Conteneur</option>
+        <option>Autre</option>
+      </select>
+    </div>
+    <div class="row2">
       <div class="field">
-        <label>Date</label>
-        <input type="date" id="date">
+        <label>Largeur</label>
+        <input id="largeur" value="31.26">
       </div>
-
       <div class="field">
-        <label>Type de navire</label>
-        <select id="vessel">
-          <option>Conteneur</option>
-          <option>Autre</option>
-        </select>
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <label>Largeur</label>
-          <input id="largeur" value="31.26">
-        </div>
-        <div class="field">
-          <label>Tirant</label>
-          <input id="tirant" value="11">
-        </div>
-      </div>
-
-      <div style="display:flex; gap:10px">
-        <button id="run">Calculer</button>
-        <button class="secondary" id="clear">Effacer</button>
-      </div>
-
-      <div>
-        <label class="muted">Journal</label>
-        <div id="log" class="log"></div>
+        <label>Tirant</label>
+        <input id="tirant" value="11">
       </div>
     </div>
-  </section>
-
-  <!-- RÉSULTATS -->
-  <section class="card">
-    <div class="hd">Résultats par station</div>
-    <div class="bd">
-      <div style="overflow:auto">
-        <table>
-          <thead>
-            <tr>
-              <th>Station</th>
-              <th>Limite (m)</th>
-              <th>Min / Max (m)</th>
-              <th>Statut</th>
-              <th>Événements</th>
-              <th>Tirant max</th>
-            </tr>
-          </thead>
-          <tbody id="results">
-            <tr><td colspan="6" class="muted">Aucun calcul</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div style="display:flex;gap:10px">
+      <button id="run">Calculer</button>
+      <button class="secondary" id="clear">Effacer</button>
     </div>
-  </section>
+    <div>
+      <label class="muted">Journal</label>
+      <div id="log" class="log"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RÉSULTATS -->
+<section class="card">
+  <div class="hd">Résultats par station</div>
+  <div class="bd">
+    <div style="overflow:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Station</th>
+            <th>Limite (m)</th>
+            <th>Min / Max</th>
+            <th>Statut</th>
+            <th>Interdictions</th>
+            <th>Tirant max</th>
+          </tr>
+        </thead>
+        <tbody id="results">
+          <tr><td colspan="6" class="muted">Aucun calcul</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
 
 </main>
 
 <script>
-/* === DONNÉES (identiques à Python) === */
+/* ================= DONNÉES ================= */
 
-const STATIONS = {
+const STATIONS={
   "Neuville":"5cebf1df3d0f4a073c4bbb38",
   "Portneuf":"5cebf1df3d0f4a073c4bbb56",
   "Deschaillons":"5cebf1df3d0f4a073c4bbb76",
@@ -197,113 +180,111 @@ const STATIONS = {
   "Frontenac":"5cebf1e03d0f4a073c4bbdee"
 };
 
-const OFFSET_10_7 = new Set(["Neuville","Portneuf","Deschaillons"]);
-const OFFSET_11_0 = new Set(["Batiscan"]);
-const DEFAULT_OFFSET = 11.3;
+const OFFSET_10_7=new Set(["Neuville","Portneuf","Deschaillons"]);
+const OFFSET_11_0=new Set(["Batiscan"]);
+const DEFAULT_OFFSET=11.3;
 
-const TABLE_SQUAT_CONTENEUR = {
-  24:{7:0.79},26:{7:0.83},28:{7:0.84},30:{7:0.86},32:{7:0.87},
-  34:{7:0.88},36:{7:0.89},38:{7:0.90},40:{7:0.91},42:{7:0.92},44:{7:0.93}
-};
-const TABLE_SQUAT_AUTRE = {
-  24:{7:0.80},26:{7:0.85},28:{7:0.86},30:{7:0.88},32:{7:0.89},
-  34:{7:0.91},36:{7:0.93},38:{7:0.94},40:{7:0.96},42:{7:0.97},44:{7:0.99}
-};
+const TABLE_CONT={24:.79,26:.83,28:.84,30:.86,32:.87,34:.88,36:.89,38:.90,40:.91,42:.92,44:.93};
+const TABLE_AUT ={24:.80,26:.85,28:.86,30:.88,32:.89,34:.91,36:.93,38:.94,40:.96,42:.97,44:.99};
 
-/* === HELPERS === */
+/* ================= OUTILS ================= */
 
-const el = id => document.getElementById(id);
-const log = s => el("log").textContent += s + "\n";
+const el=id=>document.getElementById(id);
+const log=s=>el("log").textContent+=s+"\n";
 
-function roundLargeur(v){ return v<24 ? 24 : Math.ceil(v/2)*2; }
-function offset(st){ return OFFSET_10_7.has(st)?10.7:OFFSET_11_0.has(st)?11.0:DEFAULT_OFFSET; }
+function roundLargeur(v){return v<24?24:Math.ceil(v/2)*2}
+function offset(s){return OFFSET_10_7.has(s)?10.7:OFFSET_11_0.has(s)?11.0:DEFAULT_OFFSET}
 
-function badge(cls, txt){
-  return `<span class="badge ${cls}"><span class="dot"></span>${txt}</span>`;
+function badge(cls,txt){
+  return `<span class="badge ${cls}"><span class="dot"></span>${txt}</span>`
 }
 
-function formatDT(z){
-  return new Intl.DateTimeFormat("fr-CA",{
+function shortDT(z){
+  const p=new Intl.DateTimeFormat("fr-CA",{
     timeZone:"America/Toronto",
-    hour:"2-digit",minute:"2-digit",second:"2-digit",
-    day:"2-digit",month:"short",year:"numeric",hour12:false
-  }).format(new Date(z));
+    hour:"2-digit",minute:"2-digit",
+    day:"2-digit",month:"2-digit",hour12:false
+  }).formatToParts(new Date(z));
+  const g=t=>(p.find(x=>x.type===t)||{}).value;
+  return `${g("hour")}:${g("minute")} (${g("day")}/${g("month")})`;
 }
 
-/* === CALCUL === */
+/* ================= CALCUL ================= */
 
 async function run(){
   el("log").textContent="";
   el("results").innerHTML="";
   el("status").textContent="Calcul…";
 
-  const d = new Date(el("date").value+"T00:00");
-  const today = new Date(); today.setHours(0,0,0,0);
-  if(d<today){ log("Date invalide"); return; }
+  const d=new Date(el("date").value+"T00:00");
+  const today=new Date();today.setHours(0,0,0,0);
+  if(d<today){log("Date invalide");return}
 
-  const largeur = Number(el("largeur").value.replace(",","."));
-  const tirant = Number(el("tirant").value.replace(",","."));
-  const vessel = el("vessel").value;
+  const largeur=Number(el("largeur").value.replace(",","."));
+  const tirant=Number(el("tirant").value.replace(",","."));
+  const vessel=el("vessel").value;
 
-  const L = roundLargeur(largeur);
-  const dsqR = (vessel==="Conteneur"?TABLE_SQUAT_CONTENEUR:TABLE_SQUAT_AUTRE)[L][7];
+  const L=roundLargeur(largeur);
+  const dsqR=(vessel==="Conteneur"?TABLE_CONT:TABLE_AUT)[L];
 
-  const day1 = d.toISOString().slice(0,10);
-  const day2 = new Date(d.getTime()+86400000).toISOString().slice(0,10);
+  const day1=d.toISOString().slice(0,10);
+  const day2=new Date(d.getTime()+86400000).toISOString().slice(0,10);
 
   for(const [name,id] of Object.entries(STATIONS)){
-    const lim = tirant + dsqR - offset(name);
+    const lim=tirant+dsqR-offset(name);
     let data;
     try{
-      const r = await fetch(`https://api-iwls.dfo-mpo.gc.ca/api/v1/stations/${id}/data?time-series-code=wlf-spine&from=${day1}T00:00:00Z&to=${day2}T23:57:00Z`);
-      data = await r.json();
-    }catch(e){
-      el("results").innerHTML += `<tr><td>${name}</td><td>${lim.toFixed(2)}</td><td colspan="4">${badge("bad","Erreur API")}</td></tr>`;
+      const r=await fetch(`https://api-iwls.dfo-mpo.gc.ca/api/v1/stations/${id}/data?time-series-code=wlf-spine&from=${day1}T00:00:00Z&to=${day2}T23:57:00Z`);
+      data=await r.json();
+    }catch{
+      el("results").innerHTML+=`<tr><td>${name}</td><td>${lim.toFixed(2)}</td><td colspan="4">${badge("bad","Erreur API")}</td></tr>`;
       continue;
     }
 
-    const clean = data.map(d=>({t:d.eventDate,v:+d.value})).filter(d=>!isNaN(d.v));
-    const vals = clean.map(d=>d.v);
-    const vmin=Math.min(...vals), vmax=Math.max(...vals);
+    const c=data.map(d=>({t:d.eventDate,v:+d.value})).filter(d=>!isNaN(d.v));
+    const v=c.map(d=>d.v);
+    const vmin=Math.min(...v), vmax=Math.max(...v);
 
-    const events=[];
-    for(let i=1;i<clean.length;i++){
-      if(clean[i-1].v>=lim && clean[i].v<lim)
-        events.push({l:"Débute",t:clean[i-1].t,v:clean[i-1].v});
-      if(clean[i-1].v<lim && clean[i].v>=lim)
-        events.push({l:"Termine",t:clean[i].t,v:clean[i].v});
+    let events=[],start=null;
+    for(let i=1;i<c.length;i++){
+      if(c[i-1].v>=lim && c[i].v<lim) start=c[i-1];
+      if(c[i-1].v<lim && c[i].v>=lim && start){
+        events.push({s:start.t,e:c[i].t});
+        start=null;
+      }
     }
+    if(start) events.push({s:start.t,e:null});
 
-    let evHtml="—";
-    let status=badge("ok","OK");
-
+    let evHtml="—",stat=badge("ok","OK");
     if(events.length){
-      status=badge("warn","Restriction");
-      evHtml=`<div style="font-weight:800;margin-bottom:6px">Interdictions</div>`+
-        events.map(e=>`<div class="mono">• <b>${e.l}</b> : ${formatDT(e.t)} <span class="muted">(${e.v.toFixed(3)} m)</span></div>`).join("");
+      stat=badge("warn","Restriction");
+      evHtml=events.map(w=>{
+        const a=shortDT(w.s);
+        const b=w.e?shortDT(w.e):"fin fenêtre";
+        return `<div class="mono">• de ${a} à ${b}</div>`;
+      }).join("");
     }
 
-    el("results").innerHTML += `
+    el("results").innerHTML+=`
       <tr>
         <td><b>${name}</b></td>
         <td class="mono">${lim.toFixed(3)}</td>
         <td class="mono">${vmin.toFixed(3)} / ${vmax.toFixed(3)}</td>
-        <td>${status}</td>
+        <td>${stat}</td>
         <td>${evHtml}</td>
         <td class="mono">${(vmin+offset(name)-dsqR).toFixed(2)}</td>
       </tr>`;
   }
-
   el("status").textContent="Terminé";
 }
 
-/* === INIT === */
+/* ================= INIT ================= */
 
 document.addEventListener("DOMContentLoaded",()=>{
   const n=new Date();
   el("date").value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`;
   el("run").onclick=run;
-  el("clear").onclick=()=>{el("log").textContent="";el("results").innerHTML="";};
+  el("clear").onclick=()=>{el("log").textContent="";el("results").innerHTML=""};
 });
 </script>
 
